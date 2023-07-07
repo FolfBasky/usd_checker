@@ -11,6 +11,8 @@ admin_chat_id = 879165748
 async def start(message: types.Message):
     await message.answer('Starting...')
     usd_value = 92.57
+    usd_value_new = usd()
+    await message.answer('USD: {}'.format(usd_value_new))   
     while True:
         usd_value_new = usd()
         if usd_value_new <= 90:
