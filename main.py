@@ -15,12 +15,13 @@ async def start(message: types.Message):
     usd_value_new_tinkoff = usd_tinkoff()
     await message.answer('USD: {}'.format(usd_value_new_tinkoff))   
     cday = time.time()
-    usd_value_tinkoff_lasts = 0
+    usd_value_tinkoff_lasts = usd_value_cbr_lasts = 0
     while True:
-        if (time.time() - cday) % 60*60*24:
-            await message.answer('#'*20) 
-            await message.answer(f'CBR: {usd_cbr()}')
-            await message.answer('#'*20) 
+        if (time.time() - cday) % (60*60*24):
+            if usd_value_cbr_lasts != (usd_value_cbr_new := usd_cbr()):
+                await message.answer('#'*20) 
+                await message.answer(f'CBR: {usd_value_cbr_new}')
+                await message.answer('#'*20) 
         usd_value_new_tinkoff = usd_tinkoff()
         if usd_value_new_tinkoff <= round(usd_value_i_buy,-1)-10:
             for _ in range(10):
