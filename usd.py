@@ -17,7 +17,7 @@ def usd_cbr():
 
 def usd_tinkoff():
     data = search()
-    return data['Sell']
+    return float(data['Sell'])
 
 def main():
     usd_value = usd_tinkoff()
