@@ -15,6 +15,7 @@ async def start(message: types.Message):
     usd_value_new_tinkoff = usd_tinkoff()
     await message.answer('USD: {}'.format(usd_value_new_tinkoff))   
     cday = time.time()
+    usd_value_tinkoff_lasts = 0
     while True:
         if (time.time() - cday) % 60*60*24:
             await message.answer('#'*20) 
@@ -28,6 +29,7 @@ async def start(message: types.Message):
             for _ in range(10):
                 await message.answer('High USD price! USD: {}'.format(usd_value_new_tinkoff))
         else:
+            if not usd_value_tinkoff_lasts: usd_value_tinkoff_last = usd_value_new_tinkoff 
             if usd_value_new_tinkoff > usd_value_tinkoff_last:
                 await message.answer('Usd value is higher than the previous one. Up to {} USD'.format(usd_value_new_tinkoff))
             elif usd_value_new_tinkoff < usd_value_tinkoff_last:
