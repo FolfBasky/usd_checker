@@ -15,9 +15,18 @@ async def start(message: types.Message):
     usd_value_new_tinkoff = usd_tinkoff()
     await message.answer('USD: {}'.format(usd_value_new_tinkoff))   
     cday = time.time()
-    usd_value_tinkoff_lasts = usd_value_cbr_lasts = 0
+    usd_value_tinkoff_last = usd_value_cbr_last = 0
     while True:
-        if (time.time() - cday) % (60*60*24):
+        
+        if usd_value_tinkoff_last != (value := usd_tinkoff()):
+            usd_value_tinkoff_last = value
+            await message.answer(f'USD Tinkoff: {usd_value_tinkoff_last}')
+        if usd_value_cbr_last != (value := usd_cbr()):
+            usd_value_cbr_last = value
+            await message.answer(f'USD CBR: {usd_value_cbr_last}')
+
+        await asyncio.sleep(5*60)
+        '''if (time.time() - cday) % (60*60*24):
             if usd_value_cbr_lasts != (usd_value_cbr_new := usd_cbr()):
                 await message.answer('#'*20) 
                 await message.answer(f'CBR: {usd_value_cbr_new}')
@@ -38,7 +47,7 @@ async def start(message: types.Message):
             elif usd_value_new_tinkoff < usd_value_tinkoff_last:
                 await message.answer('Usd value is lower than the previous one. Down to {} USD'.format(usd_value_new_tinkoff))  
             usd_value_tinkoff_last = usd_value_new_tinkoff   
-            await asyncio.sleep(60*30)  
+            await asyncio.sleep(60*30)  '''
 
 
 
