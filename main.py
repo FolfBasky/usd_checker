@@ -12,45 +12,26 @@ admin_chat_id = 879165748
 async def start(message: types.Message):
     await message.answer('Starting...')
     usd_value_i_buy = 92.57
-    usd_value_new_tinkoff = usd_tinkoff()
-    await message.answer('USD: {}'.format(usd_value_new_tinkoff))   
-    cday = time.time()
     usd_value_tinkoff_last = usd_value_cbr_last = 0
     while True:
-        
+
         if usd_value_tinkoff_last != (value := usd_tinkoff()):
+            if value > usd_value_i_buy: 
+                for _ in range(10):
+                    await message.answer('Should sell USD! {}'.format(value))
+            if usd_value_tinkoff_last < value:
+                await message.answer(f'🔻🔻🔻\nUSD Tinkoff: {usd_value_tinkoff_last}\n🔻🔻🔻')
+            elif usd_value_tinkoff_last > value:
+                await message.answer(f'✅✅✅\nUSD Tinkoff: {usd_value_tinkoff_last}\n✅✅✅')
             usd_value_tinkoff_last = value
-            await message.answer(f'USD Tinkoff: {usd_value_tinkoff_last}')
         if usd_value_cbr_last != (value := usd_cbr()):
+            if usd_value_tinkoff_last < value:
+                await message.answer(f'🔻🔻🔻\nUSD CBR: {usd_value_cbr_last}\n🔻🔻🔻')
+            elif usd_value_tinkoff_last > value:
+                await message.answer(f'✅✅✅\nUSD CBR: {usd_value_cbr_last}\n✅✅✅')
             usd_value_cbr_last = value
-            await message.answer(f'USD CBR: {usd_value_cbr_last}')
 
         await asyncio.sleep(5*60)
-        '''if (time.time() - cday) % (60*60*24):
-            if usd_value_cbr_lasts != (usd_value_cbr_new := usd_cbr()):
-                await message.answer('#'*20) 
-                await message.answer(f'CBR: {usd_value_cbr_new}')
-                await message.answer('#'*20) 
-                usd_value_cbr_lasts = usd_value_cbr_new
-                
-        usd_value_new_tinkoff = usd_tinkoff()
-        if usd_value_new_tinkoff <= round(usd_value_i_buy,-1)-10:
-            for _ in range(10):
-                await message.answer('Low USD price! USD: {}'.format(usd_value_new_tinkoff))
-        elif usd_value_new_tinkoff >= round(usd_value_i_buy,-1)+10:
-            for _ in range(10):
-                await message.answer('High USD price! USD: {}'.format(usd_value_new_tinkoff))
-        else:
-            if usd_value_tinkoff_lasts == 0: usd_value_tinkoff_last = usd_value_new_tinkoff 
-            if usd_value_new_tinkoff > usd_value_tinkoff_last:
-                await message.answer('Usd value is higher than the previous one. Up to {} USD'.format(usd_value_new_tinkoff))
-            elif usd_value_new_tinkoff < usd_value_tinkoff_last:
-                await message.answer('Usd value is lower than the previous one. Down to {} USD'.format(usd_value_new_tinkoff))  
-            usd_value_tinkoff_last = usd_value_new_tinkoff   
-            await asyncio.sleep(60*30)  '''
-
-
-
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
