@@ -4,14 +4,14 @@ from usd import usd_cbr, usd_tinkoff
 import asyncio
 import time
 
-bot = Bot(token="6149143790:AAEUfwLGmw7Nv9nARmBvyyhdx5KKBtcfMuI")
+bot = Bot(token="")
 dp = Dispatcher(bot)
-admin_chat_id = 879165748
+admin_chat_id = 
 
 @dp.message_handler(commands='start')
 async def start(message: types.Message):
     await message.answer('Starting...')
-    usd_value_i_buy = 92.57
+    usd_value_i_buy = ...
     usd_value_tinkoff_last = usd_value_cbr_last = 0
     while True:
 
